@@ -1,4 +1,4 @@
-package de.sirmelonchen.bucket_planer;
+package de.sirmelonchen;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
