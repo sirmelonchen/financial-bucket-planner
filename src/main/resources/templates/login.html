@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Anmeldung</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            width: 320px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #333;
+            font-weight: 700;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 8px #4a90e2;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4a90e2;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+
+        .error {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Anmeldung</h2>
+
+    <!-- Fehleranzeige -->
+    <div th:if="${param.error}" class="error">
+        Ungültiger Benutzername oder Passwort.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <label for="username">Benutzername</label>
+        <input type="text" id="username" name="username" placeholder="Benutzername" required autofocus />
+
+        <label for="password">Passwort</label>
+        <input type="password" id="password" name="password" placeholder="Passwort" required />
+
+        <button type="submit">Einloggen</button>
+    </form>
+</div>
+</body>
+</html>
