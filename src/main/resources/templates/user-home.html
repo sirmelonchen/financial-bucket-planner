@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard - Financial Bucket Planner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 20px;
+            background: #f7f9fc;
+            color: #333;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4a90e2;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+        }
+        main {
+            margin-top: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            margin: 0;
+        }
+        .welcome {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        .workspace-form {
+            margin-bottom: 40px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+        button {
+            background-color: #4a90e2;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357abd;
+        }
+        .workspaces-list {
+            list-style: none;
+            padding: 0;
+        }
+        .workspaces-list li {
+            background: white;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Dashboard</h1>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Abmelden</button>
+    </form>
+</header>
+
+<main>
+    <div class="welcome">Willkommen, <span th:text="${username}">Benutzer</span>!</div>
+
+    <section class="workspace-form">
+        <h2>Neue Arbeitsfläche erstellen</h2>
+        <form th:action="@{/workspaces}" method="post">
+            <label for="workspaceName">Name der Arbeitsfläche:</label>
+            <input type="text" id="workspaceName" name="name" placeholder="Arbeitsfläche eingeben" required />
+            <button type="submit">Erstellen</button>
+        </form>
+    </section>
+
+    <section class="workspaces">
+        <h2>Deine Arbeitsflächen</h2>
+        <ul class="workspaces-list">
+            <!-- Beispiel: Dynamische Liste der Arbeitsflächen -->
+            <li th:each="ws : ${workspaces}" th:text="${ws.name}">Workspace 1</li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>
