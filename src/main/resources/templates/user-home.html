@@ -105,8 +105,16 @@
     <section class="workspaces">
         <h2>Deine Arbeitsflächen</h2>
         <ul class="workspaces-list">
-            <li th:each="ws : ${workspaces}">
+            <li th:each="ws : ${workspaces}" style="display: flex; justify-content: space-between; align-items: center;">
                 <a th:href="@{/workspace/{id}(id=${ws.id})}" th:text="${ws.name}">Workspace Name</a>
+
+                <form method="post" th:action="@{/workspace/{id}/delete(id=${ws.id})}" style="margin: 0;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button type="submit" onclick="return confirm('Workspace wirklich löschen?');"
+                            style="background-color:#e94e4e; padding: 6px 12px; border-radius: 6px; border:none; color:white; cursor:pointer;">
+                        Löschen
+                    </button>
+                </form>
             </li>
         </ul>
     </section>

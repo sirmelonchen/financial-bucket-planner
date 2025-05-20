@@ -1,24 +1,134 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Workspace</title></head>
+<head>
+    <meta charset="UTF-8" />
+    <title>Workspace</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f9fafb;
+            color: #333;
+        }
+
+        header {
+            background-color: #4a90e2;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 2.4em;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h2, h3 {
+            font-weight: 600;
+            color: #4a90e2;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #4a90e2;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: #ffffff;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border-left: 5px solid #4a90e2;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .negative {
+            color: red;
+            font-weight: 700;
+        }
+        li span:first-child {
+        font-weight: 700;
+        }
+    </style>
+</head>
 <body>
-<h2 th:text="${workspace.name}">Workspace-Name</h2>
+<header>
+    <h1>Dein Workspace</h1>
+</header>
+<main>
+    <h2 th:text="${workspace.name}">Workspace-Name</h2>
 
-<form th:action="@{|/workspace/${workspace.id}/bucket|}" method="post">
-    <label for="bucketName">Bucket Name:</label>
-    <input type="text" name="name" id="bucketName" required />
-    <label for="amount">Betrag:</label>
-    <input type="number" name="amount" id="amount" step="0.01" required />
-    <button type="submit">Hinzufügen</button>
-</form>
+    <form th:action="@{|/workspace/${workspace.id}/bucket|}" method="post">
+        <label for="bucketName">Bucket Name:</label>
+        <input type="text" name="name" id="bucketName" required />
+        <label for="amount">Betrag:</label>
+        <input type="number" name="amount" id="amount" step="0.01" required />
+        <button type="submit">Hinzufügen</button>
+    </form>
 
-<h3>Deine Buckets:</h3>
-<ul>
-    <li th:each="b : ${workspace.buckets}">
-        <span th:text="${b.name}">Bucket Name</span> -
-        <span th:text="${b.amount}">0.00</span> €
-    </li>
-</ul>
+    <h3>Deine Buckets:</h3>
+    <ul>
+        <li th:each="b : ${workspace.buckets}">
+            <a th:href="@{'/buckets/' + ${b.id}}" th:text="${b.name}">Bucket Name</a> –
+            <span th:text="${b.amount}" th:classappend="${b.amount < 0} ? 'negative' : ''">0.00</span> €
+            <br/>
+            Verfügbar: <span th:text="${b.availableAmount}" th:classappend="${b.availableAmount < 0} ? 'negative' : ''">0.00</span> €
 
+            <!-- Löschen Formular -->
+            <form th:action="@{|/buckets/${b.id}/delete|}" method="post" style="display:inline;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" style="color:red; background:none; border:none; cursor:pointer; padding:0; margin-left:10px;">Löschen</button>
+            </form>
+        </li>
+    </ul>
+</main>
 </body>
 </html>

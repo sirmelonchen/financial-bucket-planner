@@ -2,6 +2,10 @@ package de.sirmelonchen.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Bucket {
 
@@ -11,11 +15,31 @@ public class Bucket {
 
     private String name;
 
-    private double amount;
+    private BigDecimal amount;
+
+    private BigDecimal availableAmount;
 
     @ManyToOne
     @JoinColumn(name = "workspace_id")
     private Workspace workspace;
+
+    @OneToMany(mappedBy = "bucket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Expense> expenses = new ArrayList<>();
+
+    public BigDecimal getRemainingAmount() {
+        BigDecimal spent = expenses.stream()
+                .map(expense -> BigDecimal.valueOf(expense.getAmount()))  // Hier konvertieren
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return amount.subtract(spent);
+    }
+
+    public BigDecimal getAvailableAmount() {
+        BigDecimal spent = expenses.stream()
+                .map(e -> BigDecimal.valueOf(e.getAmount())) // falls getAmount() double/Double liefert
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return amount.subtract(spent);
+    }
+
 
     public Long getId() {
         return id;
@@ -33,11 +57,11 @@ public class Bucket {
         this.name = name;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -47,5 +71,13 @@ public class Bucket {
 
     public void setWorkspace(Workspace workspace) {
         this.workspace = workspace;
+    }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
     }
 }
