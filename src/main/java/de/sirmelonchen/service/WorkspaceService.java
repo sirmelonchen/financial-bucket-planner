@@ -28,4 +28,8 @@ public class WorkspaceService {
         Workspace workspace = new Workspace(name, user);
         workspaceRepository.save(workspace);
     }
+    public Workspace getWorkspaceById(Long id) {
+        return workspaceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Workspace not found"));
+    }
 }

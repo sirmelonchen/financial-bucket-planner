@@ -1,6 +1,7 @@
 package de.sirmelonchen.controller;
 
 import de.sirmelonchen.model.Workspace;
+import de.sirmelonchen.service.BucketService;
 import de.sirmelonchen.service.UserService;
 import de.sirmelonchen.service.WorkspaceService;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,12 @@ public class UserController {
     private final UserService userService;
     private final Map<String, List<Workspace>> userWorkspaces = new HashMap<>();
     private final WorkspaceService workspaceService;
+    private final BucketService bucketService;
 
-    public UserController(UserService userService, WorkspaceService workspaceService) {
+    public UserController(UserService userService, WorkspaceService workspaceService, BucketService bucketService) {
         this.userService = userService;
         this.workspaceService = workspaceService;
+        this.bucketService = bucketService;
     }
 
 
@@ -62,5 +65,27 @@ public class UserController {
                                @RequestParam String name) {
         workspaceService.createWorkspace(user.getUsername(), name);
         return "redirect:/home";
+    }
+
+    @GetMapping("/workspace/{id}")
+    public String viewWorkspace(@PathVariable Long id,
+                                @AuthenticationPrincipal UserDetails user,
+                                Model model) {
+        Workspace workspace = workspaceService.getWorkspaceById(id);
+
+        // Optional: Zugriffsschutz
+        if (!workspace.getOwnerUsername().equals(user.getUsername())) {
+            return "error/403"; // oder eine andere Fehlerseite
+        }
+
+        model.addAttribute("workspace", workspace);
+        return "workspace-view"; // deine View-Datei
+    }
+    @PostMapping("/workspace/{id}/bucket")
+    public String addBucket(@PathVariable Long id,
+                            @RequestParam String name,
+                            @RequestParam double amount) {
+        bucketService.addBucketToWorkspace(id, name, amount);
+        return "redirect:/workspace/" + id;
     }
 }
