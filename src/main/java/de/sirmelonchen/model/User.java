@@ -1,6 +1,9 @@
 package de.sirmelonchen.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
@@ -24,6 +27,10 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.getAuthorities(); // je nach Implementierung
     }
 
     private boolean locked = false;  // true = gesperrt
