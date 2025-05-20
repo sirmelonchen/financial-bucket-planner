@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Workspace</title></head>
+<body>
+<h2 th:text="${workspace.name}">Workspace-Name</h2>
+
+<form th:action="@{|/workspace/${workspace.id}/bucket|}" method="post">
+    <label for="bucketName">Bucket Name:</label>
+    <input type="text" name="name" id="bucketName" required />
+    <label for="amount">Betrag:</label>
+    <input type="number" name="amount" id="amount" step="0.01" required />
+    <button type="submit">Hinzufügen</button>
+</form>
+
+<h3>Deine Buckets:</h3>
+<ul>
+    <li th:each="b : ${workspace.buckets}">
+        <span th:text="${b.name}">Bucket Name</span> -
+        <span th:text="${b.amount}">0.00</span> €
+    </li>
+</ul>
+
+</body>
+</html>

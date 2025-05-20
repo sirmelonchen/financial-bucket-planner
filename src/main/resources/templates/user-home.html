@@ -72,6 +72,14 @@
             border-radius: 8px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
         }
+        .workspaces-list a {
+            text-decoration: none;
+            color: #4a90e2;
+            font-weight: bold;
+        }
+        .workspaces-list a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -97,8 +105,9 @@
     <section class="workspaces">
         <h2>Deine Arbeitsflächen</h2>
         <ul class="workspaces-list">
-            <!-- Beispiel: Dynamische Liste der Arbeitsflächen -->
-            <li th:each="ws : ${workspaces}" th:text="${ws.name}">Workspace 1</li>
+            <li th:each="ws : ${workspaces}">
+                <a th:href="@{/workspace/{id}(id=${ws.id})}" th:text="${ws.name}">Workspace Name</a>
+            </li>
         </ul>
     </section>
 </main>

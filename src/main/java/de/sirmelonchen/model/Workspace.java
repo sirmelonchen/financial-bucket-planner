@@ -2,6 +2,9 @@ package de.sirmelonchen.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Workspace {
 
@@ -15,7 +18,20 @@ public class Workspace {
     @JoinColumn(name = "user_id") // Fremdschlüssel
     private User user;
 
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bucket> buckets = new ArrayList<>();
+
+    private String ownerUsername;
+
     public Workspace() {
+    }
+
+    public String getOwnerUsername() {
+        return this.user.getUsername();
+    }
+
+    public void setOwnerUsername(String ownerUsername) {
+        this.ownerUsername = ownerUsername;
     }
 
     public Workspace(String name, User user) {
@@ -45,5 +61,12 @@ public class Workspace {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public List<Bucket> getBuckets() {
+        return buckets;
+    }
+
+    public void setBuckets(List<Bucket> buckets) {
+        this.buckets = buckets;
     }
 }
