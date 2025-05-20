@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <title>Dashboard - Financial Bucket Planner</title>
@@ -85,9 +86,17 @@
 <body>
 <header>
     <h1>Dashboard</h1>
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Abmelden</button>
-    </form>
+
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <!-- Nur sichtbar für ROLE_ADMIN -->
+        <a th:href="@{/admin/users}" sec:authorize="hasRole('ROLE_ADMIN')">
+            <button type="button">Admin</button>
+        </a>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Abmelden</button>
+        </form>
+    </div>
 </header>
 
 <main>

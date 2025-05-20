@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 }
 
 tasks.named('test') {
