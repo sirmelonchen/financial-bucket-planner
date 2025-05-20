@@ -58,4 +58,9 @@ public class User {
         this.role = role;
     }
 
+    public boolean isAccountNonLocked() {
+        // Wenn user.locked == true, ist Account gesperrt → return false
+        return !this.isLocked();
+    }
+
 }
