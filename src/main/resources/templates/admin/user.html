@@ -52,7 +52,6 @@
     <thead>
     <tr>
         <th>Benutzername</th>
-        <th>Status</th>
         <th>Aktionen</th>
     </tr>
     </thead>
@@ -60,15 +59,6 @@
     <tr th:each="user : ${users}">
         <td th:text="${user.username}"></td>
         <td>
-            <span th:text="${user.locked} ? 'Gesperrt' : 'Aktiv'"></span>
-        </td>
-        <td>
-            <form th:if="${!user.locked}" th:action="@{/admin/users/{id}/lock(id=${user.id})}" method="post">
-                <button type="submit">Sperren</button>
-            </form>
-            <form th:if="${user.locked}" th:action="@{/admin/users/{id}/unlock(id=${user.id})}" method="post">
-                <button type="submit">Entsperren</button>
-            </form>
             <form th:action="@{/admin/users/{id}/delete(id=${user.id})}" method="post"
                   onsubmit="return confirm('Benutzer wirklich löschen?');">
                 <button type="submit">Löschen</button>

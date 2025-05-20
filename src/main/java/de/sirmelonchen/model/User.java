@@ -33,15 +33,6 @@ public class User {
         return this.getAuthorities(); // je nach Implementierung
     }
 
-    private boolean locked = false;  // true = gesperrt
-
-
-    public boolean isLocked() {
-        return locked;
-    }
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
 
     public Long getId() {
         return id;
@@ -65,9 +56,5 @@ public class User {
         this.role = role;
     }
 
-    public boolean isAccountNonLocked() {
-        // Wenn user.locked == true, ist Account gesperrt → return false
-        return !this.isLocked();
-    }
 
 }

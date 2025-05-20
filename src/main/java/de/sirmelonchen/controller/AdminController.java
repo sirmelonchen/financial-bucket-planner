@@ -30,17 +30,6 @@ public class AdminController {
         return "admin/user.html";  // Name der Thymeleaf Vorlage
     }
 
-    @PostMapping("/users/{id}/lock")
-    public String lockUser(@PathVariable Long id) {
-        userService.lockUser(id);
-        return "redirect:/admin/users";
-    }
-
-    @PostMapping("/users/{id}/unlock")
-    public String unlockUser(@PathVariable Long id) {
-        userService.unlockUser(id);
-        return "redirect:/admin/users";
-    }
 
     @PostMapping("/users/{id}/delete")
     public String deleteUser(@PathVariable Long id) {
