@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="'Bucket: ' + ${bucket.name}">Bucket View</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0;
+            background: #f9fafb;
+            color: #333;
+        }
+        header {
+            background-color: #4a90e2;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 2.8em;
+        }
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        main h2 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        main p, main strong {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        form {
+            margin: 30px 0;
+            text-align: left;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1em;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        button:hover {
+            background-color: #357abd;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 500px;
+            margin: 0 auto 40px auto;
+            text-align: left;
+        }
+        ul li {
+            background: white;
+            margin-bottom: 10px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 1.1em;
+        }
+        a.back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+        a.back-link:hover {
+            color: #357abd;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1 th:text="'Bucket: ' + ${bucket.name}">Bucket</h1>
+</header>
+<main>
+    <p>Budget: <span th:text="${bucket.amount}">0.00</span> €</p>
+    <p>Verfügbar: <strong th:text="${remainingAmount}">0.00</strong> €</p>
+
+    <h2>Neue Ausgabe hinzufügen</h2>
+    <form th:action="@{'/buckets/' + ${bucket.id} + '/expenses'}" method="post">
+        <label for="description">Beschreibung:</label>
+        <input type="text" name="description" required />
+        <label for="amount">Betrag:</label>
+        <input type="number" name="amount" step="0.01" required />
+        <button type="submit">Hinzufügen</button>
+    </form>
+
+    <h2>Ausgaben</h2>
+    <ul>
+        <li th:each="expense : ${bucket.expenses}">
+            <div>
+                <strong th:text="${expense.description}">Beschreibung</strong> –
+                <span th:text="${expense.amount}"
+                      th:classappend="${expense.amount < 0} ? 'text-red' : ''">0,00</span> €
+                <br />
+                <small th:text="${#temporals.format(expense.createdAt, 'dd.MM.yyyy HH:mm')}">Datum</small>
+            </div>
+            <form th:action="@{|/buckets/${bucket.id}/expense/${expense.id}/delete|}" method="post" style="margin-top: 5px;">
+                <button type="submit">Löschen</button>
+            </form>
+        </li>
+    </ul>
+
+    <a th:href="@{/home}" class="back-link">Zurück</a>
+</main>
+</body>
+</html>

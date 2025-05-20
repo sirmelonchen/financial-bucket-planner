@@ -32,4 +32,8 @@ public class WorkspaceService {
         return workspaceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Workspace not found"));
     }
+
+    public void deleteById(Long id) {
+        workspaceRepository.deleteById(id);
+    }
 }

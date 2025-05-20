@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Nutzerübersicht</title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+<h1>Alle Nutzer</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Benutzername</th>
+        <th>Rolle</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.role}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

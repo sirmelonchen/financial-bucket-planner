@@ -5,6 +5,8 @@ import de.sirmelonchen.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -20,5 +22,8 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(rawPassword);
         User user = new User(username, encodedPassword, "USER");
         userRepository.save(user);
+    }
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

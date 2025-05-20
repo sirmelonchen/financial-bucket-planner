@@ -4,12 +4,15 @@ import de.sirmelonchen.model.Workspace;
 import de.sirmelonchen.service.BucketService;
 import de.sirmelonchen.service.UserService;
 import de.sirmelonchen.service.WorkspaceService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.*;
 
 
@@ -34,7 +37,10 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/home";
+        }
         return "login";
     }
 
@@ -84,8 +90,21 @@ public class UserController {
     @PostMapping("/workspace/{id}/bucket")
     public String addBucket(@PathVariable Long id,
                             @RequestParam String name,
-                            @RequestParam double amount) {
+                            @RequestParam BigDecimal amount) {
         bucketService.addBucketToWorkspace(id, name, amount);
         return "redirect:/workspace/" + id;
+    }
+
+    @PostMapping("/workspace/{id}/delete")
+    public String deleteWorkspace(@PathVariable Long id, Principal principal) {
+        // Optional: Prüfe, ob der eingeloggte Nutzer auch Besitzer des Workspaces ist
+        Workspace workspace = workspaceService.getWorkspaceById(id);
+        if (workspace == null || !workspace.getUser().getUsername().equals(principal.getName())) {
+            // Kein Zugriff oder Workspace existiert nicht
+            return "redirect:/workspace?error=accessDenied";
+        }
+
+        workspaceService.deleteById(id);
+        return "redirect:/home";  // Zurück zur Workspace-Übersicht
     }
 }
