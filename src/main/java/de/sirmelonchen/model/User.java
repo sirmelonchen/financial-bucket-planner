@@ -1,6 +1,9 @@
 package de.sirmelonchen.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
@@ -26,7 +29,11 @@ public class User {
         this.role = role;
     }
 
-    // Getter & Setter
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.getAuthorities(); // je nach Implementierung
+    }
+
+
     public Long getId() {
         return id;
     }
@@ -48,4 +55,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 }
