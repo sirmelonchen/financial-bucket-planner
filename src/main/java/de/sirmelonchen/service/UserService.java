@@ -26,4 +26,24 @@ public class UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+    public void lockUser(Long userId) {
+        userRepository.findById(userId).ifPresent(user -> {
+            user.setLocked(true);
+            userRepository.save(user);
+        });
+    }
+
+    public void unlockUser(Long userId) {
+        userRepository.findById(userId).ifPresent(user -> {
+            user.setLocked(false);
+            userRepository.save(user);
+        });
+    }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+
 }

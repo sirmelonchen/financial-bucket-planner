@@ -26,7 +26,16 @@ public class User {
         this.role = role;
     }
 
-    // Getter & Setter
+    private boolean locked = false;  // true = gesperrt
+
+
+    public boolean isLocked() {
+        return locked;
+    }
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
     public Long getId() {
         return id;
     }
@@ -48,4 +57,5 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
 }

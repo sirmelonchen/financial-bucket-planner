@@ -29,4 +29,6 @@ public class DatabaseUserDetailsService implements UserDetailsService {
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
         );
     }
+
+
 }
