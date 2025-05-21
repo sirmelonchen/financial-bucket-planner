@@ -16,6 +16,9 @@ import java.security.Principal;
 import java.util.*;
 
 
+/**
+ * The type User controller.
+ */
 @Controller
 public class UserController {
 
@@ -24,6 +27,13 @@ public class UserController {
     private final WorkspaceService workspaceService;
     private final BucketService bucketService;
 
+    /**
+     * Instantiates a new User controller.
+     *
+     * @param userService      the user service
+     * @param workspaceService the workspace service
+     * @param bucketService    the bucket service
+     */
     public UserController(UserService userService, WorkspaceService workspaceService, BucketService bucketService) {
         this.userService = userService;
         this.workspaceService = workspaceService;
@@ -31,11 +41,22 @@ public class UserController {
     }
 
 
+    /**
+     * Index string.
+     *
+     * @return the string
+     */
     @GetMapping("/")
     public String index() {
         return "index";
     }
 
+    /**
+     * Login string.
+     *
+     * @param authentication the authentication
+     * @return the string
+     */
     @GetMapping("/login")
     public String login(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
@@ -44,17 +65,38 @@ public class UserController {
         return "login";
     }
 
+    /**
+     * Register form string.
+     *
+     * @return the string
+     */
     @GetMapping("/register")
     public String registerForm() {
         return "register";
     }
 
+    /**
+     * Register user string.
+     *
+     * @param username the username
+     * @param password the password
+     * @param email    the email
+     * @param model    the model
+     * @return the string
+     */
     @PostMapping("/register")
     public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email,Model model) {
         userService.registerUser(username, password, email);
         return "redirect:/login";
     }
 
+    /**
+     * User home string.
+     *
+     * @param user  the user
+     * @param model the model
+     * @return the string
+     */
     @GetMapping("/home")
     public String userHome(@AuthenticationPrincipal UserDetails user, Model model) {
         String username = user.getUsername();
@@ -66,6 +108,13 @@ public class UserController {
         return "user-home";
     }
 
+    /**
+     * Add workspace string.
+     *
+     * @param user the user
+     * @param name the name
+     * @return the string
+     */
     @PostMapping("/workspaces")
     public String addWorkspace(@AuthenticationPrincipal UserDetails user,
                                @RequestParam String name) {
@@ -73,6 +122,14 @@ public class UserController {
         return "redirect:/home";
     }
 
+    /**
+     * View workspace string.
+     *
+     * @param id    the id
+     * @param user  the user
+     * @param model the model
+     * @return the string
+     */
     @GetMapping("/workspace/{id}")
     public String viewWorkspace(@PathVariable Long id,
                                 @AuthenticationPrincipal UserDetails user,
@@ -87,6 +144,15 @@ public class UserController {
         model.addAttribute("workspace", workspace);
         return "workspace-view"; // deine View-Datei
     }
+
+    /**
+     * Add bucket string.
+     *
+     * @param id     the id
+     * @param name   the name
+     * @param amount the amount
+     * @return the string
+     */
     @PostMapping("/workspace/{id}/bucket")
     public String addBucket(@PathVariable Long id,
                             @RequestParam String name,
@@ -95,6 +161,13 @@ public class UserController {
         return "redirect:/workspace/" + id;
     }
 
+    /**
+     * Delete workspace string.
+     *
+     * @param id        the id
+     * @param principal the principal
+     * @return the string
+     */
     @PostMapping("/workspace/{id}/delete")
     public String deleteWorkspace(@PathVariable Long id, Principal principal) {
         // Optional: Prüfe, ob der eingeloggte Nutzer auch Besitzer des Workspaces ist
