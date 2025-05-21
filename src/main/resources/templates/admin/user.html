@@ -52,16 +52,27 @@
     <thead>
     <tr>
         <th>Benutzername</th>
+        <th>E-Mail</th>
+        <th>Aktiv?</th>
         <th>Aktionen</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
         <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.enabled}"></td>
         <td>
             <form th:action="@{/admin/users/{id}/delete(id=${user.id})}" method="post"
                   onsubmit="return confirm('Benutzer wirklich löschen?');">
                 <button type="submit">Löschen</button>
+            </form>
+            <form th:action="@{/admin/users/{id}/toggle(id=${user.id})}" method="post">
+                <button type="submit"
+                        th:text="${user.enabled} ? 'Sperren' : 'Freischalten'"></button>
+            </form>
+            <form th:action="@{'/admin/user-workspaces/' + ${user.id}}" method="get">
+                <button type="submit">Workspaces anzeigen</button>
             </form>
         </td>
     </tr>

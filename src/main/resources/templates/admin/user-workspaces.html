@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin/Workspaces</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f9fafb;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            padding: 20px;
+            color: #4a90e2;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+            font-size: 1.5em;
+        }
+
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px auto 40px auto;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4a90e2;
+            color: white;
+            font-weight: 600;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f7ff;
+        }
+
+        @media (max-width: 700px) {
+            table {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Alle Workspaces (Admin)</h2>
+<h2>Workspaces von Nutzer <span th:text="${user.username}"></span></h2>
+
+<div th:each="workspace : ${workspaces}">
+    <h3 th:text="${workspace.name}"></h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Bucket</th>
+            <th>Inhalt</th>
+            <th>Betrag</th>
+            <th>Verfügbar</th>
+            <th>Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="bucket : ${workspace.buckets}">
+            <td th:text="${bucket.name}"></td>
+            <td th:text="${bucket.content}"></td>
+            <td th:text="${showNumbers} ? ${bucket.amount} : '[REDACTED]'"></td>
+            <td th:text="${showNumbers} ? ${bucket.availableAmount} : '[REDACTED]'"></td>
+            <td>
+                <form th:action="@{/admin/user-workspaces/{id}(id=${user.id}, showNumbers=true)}" method="get">
+                    <button type="submit" th:text="${showNumbers} ? 'Zahlen ausblenden' : 'Zahlen anzeigen'"></button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
