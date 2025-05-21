@@ -35,7 +35,7 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .logout(logout -> logout.permitAll())
-                .userDetailsService(userDetailsService);;
+                .userDetailsService(userDetailsService);
 
         return http.build();
     }

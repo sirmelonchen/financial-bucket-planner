@@ -4,10 +4,10 @@ package de.sirmelonchen.model;
  * The type Redacted bucket.
  */
 public class RedactedBucket {
-    private String name;
-    private String content;
-    private String amount = "[REDACTED]";
-    private String availableAmount = "[REDACTED]";
+    private final String name;
+    private final String content;
+    private final String amount = "[REDACTED]";
+    private final String availableAmount = "[REDACTED]";
 
     /**
      * Instantiates a new Redacted bucket.

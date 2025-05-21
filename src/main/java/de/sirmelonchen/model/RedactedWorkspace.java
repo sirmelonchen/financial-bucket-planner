@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
  * The type Redacted workspace.
  */
 public class RedactedWorkspace {
-    private String name;
-    private String ownerUsername;
-    private List<RedactedBucket> buckets;
+    private final String name;
+    private final String ownerUsername;
+    private final List<RedactedBucket> buckets;
 
     /**
      * Instantiates a new Redacted workspace.
