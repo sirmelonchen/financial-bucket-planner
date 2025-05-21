@@ -1,6 +1,7 @@
 package de.sirmelonchen.controller;
 
 import de.sirmelonchen.model.User;
+import de.sirmelonchen.repository.UserRepository;
 import de.sirmelonchen.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -17,9 +18,11 @@ import java.util.List;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     private final UserService userService;
+    private final UserRepository userRepository;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/users")
@@ -34,6 +37,15 @@ public class AdminController {
     @PostMapping("/users/{id}/delete")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/users/{id}/toggle")
+    public String toggleUserStatus(@PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User nicht gefunden"));
+        user.setEnabled(!user.isEnabled()); // oder user.setLocked(!user.isLocked());
+        userRepository.save(user);
         return "redirect:/admin/users";
     }
 }
