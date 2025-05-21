@@ -20,6 +20,8 @@ public class Bucket {
 
     private BigDecimal amount;
 
+    private String content;
+
     private BigDecimal availableAmount;
 
     @ManyToOne
@@ -39,6 +41,24 @@ public class Bucket {
                 .map(expense -> BigDecimal.valueOf(expense.getAmount()))  // Hier konvertieren
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         return amount.subtract(spent);
+    }
+
+    /**
+     * Gets content.
+     *
+     * @return the content
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * Sets content.
+     *
+     * @param content the content
+     */
+    public void setContent(String content) {
+        this.content = content;
     }
 
     /**

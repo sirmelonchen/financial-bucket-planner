@@ -60,7 +60,7 @@
     <tbody>
     <tr th:each="user : ${users}">
         <td th:text="${user.username}"></td>
-        <td th:text="${user.email}"></tdth:text>
+        <td th:text="${user.email}"></td>
         <td th:text="${user.enabled}"></td>
         <td>
             <form th:action="@{/admin/users/{id}/delete(id=${user.id})}" method="post"
@@ -70,6 +70,9 @@
             <form th:action="@{/admin/users/{id}/toggle(id=${user.id})}" method="post">
                 <button type="submit"
                         th:text="${user.enabled} ? 'Sperren' : 'Freischalten'"></button>
+            </form>
+            <form th:action="@{'/admin/user-workspaces/' + ${user.id}}" method="get">
+                <button type="submit">Workspaces anzeigen</button>
             </form>
         </td>
     </tr>
