@@ -29,14 +29,15 @@ public class EmailService {
      * @param to      the to
      * @param content the content
      */
-    public void send(String to, String content) {
+    public void send(String to, String subject,String content) {
         MimeMessage message = mailSender.createMimeMessage();
+        String from = System.getProperty("MAIL_FROM");
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(to);
-            helper.setFrom(" no-reply@beugsiud.de ");
-            helper.setSubject("Bitte bestätige deine E-Mail");
+            helper.setFrom(from);
+            helper.setSubject(subject);
             helper.setText(content, true);
             mailSender.send(message);
         } catch (MessagingException e) {
