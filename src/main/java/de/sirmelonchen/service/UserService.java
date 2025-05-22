@@ -65,7 +65,7 @@ public class UserService {
                 "<p>Bitte bestätige deine E-Mail-Adresse:</p>" +
                 "<a href=\"" + link + "\"><button>Bestätigen</button></a>";
 
-        emailService.send(user.getEmail(), html);
+        emailService.send(user.getEmail(), "Bitte bestätige deine E-Mail Adresse", html);
     }
 
     /**
@@ -84,7 +84,13 @@ public class UserService {
         User user = confirmationToken.getUser();
         user.setEnabled(true);
         userRepository.save(user);
-        tokenRepository.delete(confirmationToken); // Optional: Token löschen
+        tokenRepository.delete(confirmationToken);
+        String link = "http://localhost:8080/login";
+        String html = "<h3>Dein Konto wurde erfolgreich aktiviert!</h3>" +
+                "<p>Du hast dein Konto erfolgreich aktiviert.:</p>" +
+                "<a href=\"" + link + "\"><button>Login</button></a>";
+
+        emailService.send(user.getEmail(), "Konto Aktiviert", html);// Optional: Token löschen
     }
 
     /**
