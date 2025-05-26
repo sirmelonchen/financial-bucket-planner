@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Setup</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Setup</h2>
+<form th:action="@{/setup}" method="post">
+    <label for="username">Admin-Benutzername:</label><br/>
+    <input type="text" id="username" name="adminUsername" required /><br/><br/>
+
+    <label for="password">Admin-Passwort:</label><br/>
+    <input type="password" id="password" name="adminPassword" required /><br/><br/>
+
+    <label for="email">Admin-E-Mail:</label><br/>
+    <input type="email" id="email" name="adminEmail" required /><br/><br/>
+
+    <button type="submit">Registrieren</button>
+</form>
+</body>
+</html>

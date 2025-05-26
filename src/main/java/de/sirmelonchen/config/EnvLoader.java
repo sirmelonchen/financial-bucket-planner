@@ -1,7 +1,8 @@
 package de.sirmelonchen.config;
 
-import jakarta.annotation.PostConstruct;
+import de.sirmelonchen.status.SetupStatus;
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -31,6 +32,9 @@ public class EnvLoader {
         System.setProperty("MAIL_AUTH", dotenv.get("MAIL_AUTH"));
         System.setProperty("MAIL_STARTTLS", dotenv.get("MAIL_STARTTLS"));
         System.setProperty("MAIL_FROM", dotenv.get("MAIL_FROM"));
+        System.setProperty("SETUP", dotenv.get("SETUP"));
+        SetupStatus setupStatus = new SetupStatus();
+        setupStatus.setSetupCompleted(Boolean.parseBoolean(dotenv.get("SETUP")));
     }
 }
 
