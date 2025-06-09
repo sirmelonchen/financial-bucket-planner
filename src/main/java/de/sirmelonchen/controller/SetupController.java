@@ -22,6 +22,7 @@ public class SetupController {
     }
     @GetMapping
     public String setup(Model model){
+        System.out.println(Boolean.getBoolean(System.getenv("SETUP")));
         if(!Boolean.parseBoolean(System.getenv("SETUP"))){
             return "setup/setup";
         }
