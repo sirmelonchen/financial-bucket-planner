@@ -15,6 +15,10 @@ java {
 
 repositories {
 	mavenCentral()
+	maven {
+		name "resparkReleases"
+		url "https://maven.respark.dev/releases"
+	}
 }
 
 dependencies {
@@ -29,6 +33,7 @@ dependencies {
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation "dev.respark.licensegate:license-gate:1.0.4"
 }
 
 tasks.named('test') {
