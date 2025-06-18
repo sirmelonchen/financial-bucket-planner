@@ -19,7 +19,6 @@ public class BucketPlanerApplication {
 		if (isValid){
 			SpringApplication.run(BucketPlanerApplication.class, args);
 		}
-
 	}
 
 }
