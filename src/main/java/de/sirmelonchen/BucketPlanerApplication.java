@@ -1,7 +1,7 @@
 package de.sirmelonchen;
 
 import de.sirmelonchen.config.EnvLoader;
-import io.github.cdimascio.dotenv.Dotenv;
+import de.sirmelonchen.misc.LicenseCheck;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,7 +13,13 @@ public class BucketPlanerApplication {
 		envLoader.init();
 
 
-		SpringApplication.run(BucketPlanerApplication.class, args);
+		LicenseCheck licenseCheck = new LicenseCheck();
+		licenseCheck.getKey();
+		boolean isValid = licenseCheck.checkKey();
+		if (isValid){
+			SpringApplication.run(BucketPlanerApplication.class, args);
+		}
+
 	}
 
 }
