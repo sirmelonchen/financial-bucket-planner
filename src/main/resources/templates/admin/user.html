@@ -11,9 +11,38 @@
             background: #f9fafb;
             color: #333;
         }
+        .main-header {
+            background: #4a90e2;
+            padding: 12px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .header-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .home-btn {
+            color: #fff;
+            background: #4a90e2;
+            border: 2px solid #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 18px;
+            transition: background 0.15s, color 0.15s;
+            font-size: 1.05em;
+        }
+        .home-btn:hover {
+            background: #fff;
+            color: #4a90e2;
+        }
         h1 {
             text-align: center;
-            padding: 30px 20px;
+            padding: 30px 20px 10px 20px;
             font-weight: 700;
             font-size: 2.2em;
             color: #4a90e2;
@@ -45,7 +74,6 @@
                 width: 90%;
             }
         }
-        /* Button Styling */
         button {
             border: none;
             border-radius: 4px;
@@ -55,23 +83,21 @@
             margin-right: 8px;
             margin-bottom: 4px;
             transition: background 0.2s;
+            background: #4a90e2;
+            color: white;
         }
         button.delete {
             background: #e24a4a;
-            color: white;
         }
         button.toggle {
             background: #f5a623;
-            color: white;
         }
         button.view {
             background: #4a90e2;
-            color: white;
         }
         button:hover {
             opacity: 0.8;
         }
-        /* Status Badge */
         .badge {
             display: inline-block;
             padding: 4px 10px;
@@ -86,7 +112,6 @@
         .badge.inactive {
             background: #d9534f;
         }
-        /* Screenreader only */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -100,6 +125,11 @@
     </style>
 </head>
 <body>
+<header class="main-header">
+    <div class="header-container">
+        <a href="/" class="home-btn">Startseite</a>
+    </div>
+</header>
 <h1>Alle Nutzer</h1>
 <table>
     <caption class="sr-only">Übersicht aller Nutzer</caption>
@@ -121,14 +151,14 @@
         </td>
         <td>
             <form th:action="@{/admin/users/{id}/delete(id=${user.id})}" method="post"
-                  onsubmit="return confirm('Benutzer wirklich löschen?');">
+                  onsubmit="return confirm('Benutzer wirklich löschen?');" style="display:inline;">
                 <button type="submit" class="delete" aria-label="Benutzer löschen">Löschen</button>
             </form>
-            <form th:action="@{/admin/users/{id}/toggle(id=${user.id})}" method="post">
+            <form th:action="@{/admin/users/{id}/toggle(id=${user.id})}" method="post" style="display:inline;">
                 <button type="submit" class="toggle" aria-label="Status wechseln"
                         th:text="${user.enabled} ? 'Sperren' : 'Freischalten'"></button>
             </form>
-            <form th:action="@{'/admin/user-workspaces/' + ${user.id}}" method="get">
+            <form th:action="@{'/admin/user-workspaces/' + ${user.id}}" method="get" style="display:inline;">
                 <button type="submit" class="view" aria-label="Workspaces anzeigen">Workspaces anzeigen</button>
             </form>
         </td>
